@@ -5,7 +5,9 @@
 #include <math.h>
 #include <Dsplib.h>
 #include <sar.h>
+#include <LCD_FCN.h>
 #include "filterCoefficient.h"
+#include "lcd.h"
 
 /*
 //Addresses of the MMIO for the GPIO out registers: 1,2 
@@ -34,10 +36,6 @@ void displayStat(void) {
 	}
 	printf("=======================================================\n\n");
 }
- 
-/* void displayStat(void) {
-	printf("%s, %d\n%d, %d, %d", (bypass == 1)? "true" : "false", filter, gainLow, gainBand, gainHigh);
-} */
 
 void vectorAdd(void) {
 	int i;
@@ -53,14 +51,24 @@ void calCoe(Int16 * out, Int16 * in, int gain) {
 	}
 }
 
+void refreshLcd(void) {
+	if (bypass == 1) {
+		displayBypass();
+	} else {
+		displayFilter();
+		displayHighlight(filter);
+		displayLevel(gainLow, gainBand, gainHigh);
+	}
+}
+
 void switchFilter(Uint16 keyPressed) {
-	
+//	printf("\n0x%04x\n", keyPressed);
 	switch (keyPressed) {
 		case SW1: 
 			filter = (filter + 1) % 3;
+			refreshLcd();
 			displayStat();
 			break;
-		
 		case SW2: 
 			if (filter == 0) {
 				gainLow = (gainLow + 1) % 7;
@@ -76,18 +84,21 @@ void switchFilter(Uint16 keyPressed) {
 			}
 
 			vectorAdd();
+			refreshLcd();
 			displayStat();
 			break;
-		
+
 		case SW12: 
 			bypass = (bypass + 1) % 2;
 			displayStat();
+			refreshLcd();
 			break;
-		
+			
 		default:
 			break;
 	}
 }
+
 
 
 void main(void)
@@ -99,12 +110,16 @@ void main(void)
 	USBSTK5515_init(); 					//Initializing the Processor
 	AIC_init(); 						//Initializing the Audio Codec
 	Init_SAR();
+
+	stopScroll();
+	clearLcd();
 	
 	memcpy(lCoe, LP, sizeof(lCoe));
 	memcpy(bCoe, BP, sizeof(bCoe));
 	memcpy(hCoe, HP, sizeof(hCoe));
 	
 	vectorAdd();
+	refreshLcd();
 
 	while(1)
 	{
@@ -112,7 +127,7 @@ void main(void)
 		keyPressed = Get_Key_Human();
 		switchFilter(keyPressed);
 
-		if (bypass == 0) {
+		if (bypass == 1) {
 			 out_right[0] = right[0];
 			 out_left[0] = left[0];
 			 AIC_write2(out_right[0], out_left[0]);
