@@ -5,7 +5,10 @@
 #include <math.h>
 #include <Dsplib.h>
 #include <sar.h>
+#include <LCD_FCN.h>
 #include "filterCoefficient.h"
+#include "lcd.h"
+ 
 
 /*
 //Addresses of the MMIO for the GPIO out registers: 1,2 
@@ -34,7 +37,18 @@ void displayStat(void) {
 	}
 	printf("=======================================================\n\n");
 }
- 
+
+void refreshLcd(void) {
+	
+	 if (bypass == 1) {
+	   displayBypass();
+	 } else {	
+	   displayFilter();
+	   displayHighlight(filter);
+	   displayLevel(gainLow, gainBand, gainHigh);
+	 }
+   }
+
 /* void displayStat(void) {
 	printf("%s, %d\n%d, %d, %d", (bypass == 1)? "true" : "false", filter, gainLow, gainBand, gainHigh);
 } */
@@ -59,6 +73,7 @@ void switchFilter(Uint16 keyPressed) {
 		case SW1: 
 			filter = (filter + 1) % 3;
 			displayStat();
+			refreshLcd();
 			break;
 		
 		case SW2: 
@@ -74,13 +89,14 @@ void switchFilter(Uint16 keyPressed) {
 				gainHigh = (gainHigh + 1) % 7;
 				calCoe(&hCoe[0], &HP[0], gainHigh);
 			}
-
+			refreshLcd();
 			vectorAdd();
 			displayStat();
 			break;
 		
 		case SW12: 
 			bypass = (bypass + 1) % 2;
+			refreshLcd();
 			displayStat();
 			break;
 		
@@ -100,11 +116,17 @@ void main(void)
 	AIC_init(); 						//Initializing the Audio Codec
 	Init_SAR();
 	
+	stopScroll();
+	clearLcd();
+	
+	
 	memcpy(lCoe, LP, sizeof(lCoe));
 	memcpy(bCoe, BP, sizeof(bCoe));
 	memcpy(hCoe, HP, sizeof(hCoe));
 	
 	vectorAdd();
+	refreshLcd();
+	
 
 	while(1)
 	{
@@ -112,7 +134,7 @@ void main(void)
 		keyPressed = Get_Key_Human();
 		switchFilter(keyPressed);
 
-		if (bypass == 0) {
+		if (bypass == 1) {
 			 out_right[0] = right[0];
 			 out_left[0] = left[0];
 			 AIC_write2(out_right[0], out_left[0]);

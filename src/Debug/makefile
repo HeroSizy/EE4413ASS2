@@ -10,6 +10,7 @@ SPACE := $(EMPTY) $(EMPTY)
 ORDERED_OBJS += \
 $(GEN_CMDS_QUOTED) \
 "./main.obj" \
+"./lcd.obj" \
 -l"rts55x.lib" \
 -l"C:\Users\eeeceldsp1\Desktop\EE4413ASS2\C5515_Support_Files\452_Support\452_Labs_Essentials.lib" \
 -l"C:\Users\eeeceldsp1\Desktop\EE4413ASS2\C5515_Support_Files\usbstk5515bsl.lib" \
@@ -118,8 +119,8 @@ src.out: $(GEN_CMDS) $(CMD_SRCS) $(OBJS)
 # Other Targets
 clean:
 	-$(RM) $(C5500_EXECUTABLE_OUTPUTS__QTD) "src.out"
-	-$(RM) ".\main.obj" 
-	-$(RM) ".\main.pp" 
+	-$(RM) ".\lcd.obj" ".\main.obj" 
+	-$(RM) ".\lcd.pp" ".\main.pp" 
 	-@echo ' '
 
 .PHONY: all clean dependents
