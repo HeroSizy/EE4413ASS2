@@ -25,6 +25,7 @@
 <option id="com.ti.ccstudio.buildDefinitions.C5500_4.3.compilerID.SILICON_VERSION.2038181397" superClass="com.ti.ccstudio.buildDefinitions.C5500_4.3.compilerID.SILICON_VERSION" value="5515" valueType="string"/>
 <option id="com.ti.ccstudio.buildDefinitions.C5500_4.3.compilerID.INCLUDE_PATH.1749566615" superClass="com.ti.ccstudio.buildDefinitions.C5500_4.3.compilerID.INCLUDE_PATH" valueType="includePath">
 <listOptionValue builtIn="false" value="&quot;${CG_TOOL_ROOT}/include&quot;"/>
+<listOptionValue builtIn="false" value="&quot;C:\Users\eeeceldsp1\Desktop\EE4413ASS2\C5515_Support_Files\452_Support&quot;"/>
 <listOptionValue builtIn="false" value="&quot;C:\Users\eeeceldsp1\Desktop\EE4413ASS2\C5515_Support_Files\C5515_Includes&quot;"/>
 </option>
 </tool>
@@ -33,6 +34,7 @@
 <option id="com.ti.ccstudio.buildDefinitions.C5500_4.3.linkerID.MAP_FILE.60642158" superClass="com.ti.ccstudio.buildDefinitions.C5500_4.3.linkerID.MAP_FILE" value="&quot;src.map&quot;" valueType="string"/>
 <option id="com.ti.ccstudio.buildDefinitions.C5500_4.3.linkerID.LIBRARY.274599326" superClass="com.ti.ccstudio.buildDefinitions.C5500_4.3.linkerID.LIBRARY" valueType="libs">
 <listOptionValue builtIn="false" value="&quot;rts55x.lib&quot;"/>
+<listOptionValue builtIn="false" value="&quot;C:\Users\eeeceldsp1\Desktop\EE4413ASS2\C5515_Support_Files\452_Support\452_Labs_Essentials.lib&quot;"/>
 <listOptionValue builtIn="false" value="&quot;C:\Users\eeeceldsp1\Desktop\EE4413ASS2\C5515_Support_Files\usbstk5515bsl.lib&quot;"/>
 <listOptionValue builtIn="false" value="&quot;C:\Users\eeeceldsp1\Desktop\EE4413ASS2\C5515_Support_Files\C5515_Lib\dsplib_2.40.00\55xdspx_LARGE.lib&quot;"/>
 </option>
